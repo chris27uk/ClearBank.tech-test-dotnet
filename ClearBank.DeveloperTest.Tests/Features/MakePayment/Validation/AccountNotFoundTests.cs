@@ -1,6 +1,6 @@
 using ClearBank.DeveloperTest.Features.MakePayment.Accounts;
-using ClearBank.DeveloperTest.Features.MakePayment.Contract;
 using ClearBank.DeveloperTest.Tests.Infrastructure;
+using ClearBank.DeveloperTest.Types;
 using NUnit.Framework;
 
 namespace ClearBank.DeveloperTest.Tests.Validation

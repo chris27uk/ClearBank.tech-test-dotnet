@@ -1,6 +1,6 @@
 using ClearBank.DeveloperTest.Features.MakePayment;
 using ClearBank.DeveloperTest.Features.MakePayment.Accounts;
-using ClearBank.DeveloperTest.Features.MakePayment.Contract;
+using ClearBank.DeveloperTest.Types;
 using System;
 
 namespace ClearBank.DeveloperTest.Tests.Infrastructure

@@ -1,4 +1,4 @@
-﻿using ClearBank.DeveloperTest.Features.MakePayment.Contract;
+﻿using ClearBank.DeveloperTest.Types;
 
 namespace ClearBank.DeveloperTest.Features.MakePayment
 {

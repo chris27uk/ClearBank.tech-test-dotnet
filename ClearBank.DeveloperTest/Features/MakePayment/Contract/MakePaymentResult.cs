@@ -1,4 +1,5 @@
-﻿namespace ClearBank.DeveloperTest.Features.MakePayment.Contract
+﻿// ReSharper disable once CheckNamespace
+namespace ClearBank.DeveloperTest.Types
 {
     public class MakePaymentResult
     {
