@@ -78,14 +78,7 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
 
             account.Balance -= request.Amount;
 
-            if (dataStoreType == "Backup")
-            {
-                accountDataStore.UpdateAccount(account);
-            }
-            else
-            {
-                accountDataStore.UpdateAccount(account);
-            }
+            accountDataStore.UpdateAccount(account);
 
             return MakePaymentResult.ForSuccess();
         }
