@@ -88,5 +88,23 @@ namespace ClearBank.DeveloperTest.Tests.Features.MakePayment
             
             Assert.That(context.PrimaryAccountDataStore.Updates, Is.Empty);
         }
+        
+        [TestCase(PaymentScheme.Bacs, AllowedPaymentSchemes.Bacs)]
+        [TestCase(PaymentScheme.Chaps, AllowedPaymentSchemes.Chaps)]
+        [TestCase(PaymentScheme.FasterPayments, AllowedPaymentSchemes.FasterPayments)]
+        public void Given_A_Valid_Payment_Request_For_An_Account_In_Both_Stores_When_Paying_Then_Uses_Correct_Amount(PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
+        {
+            var backupAccount = PaymentTestSubject.CreateAccount(balance: 50);
+            var primaryAccount = PaymentTestSubject.CreateAccount(balance: 30);
+            var context = PaymentTestSubject.WithExpectedPaymentResponse(
+                dataStoreType: "Backup",
+                accountsInBackupDataStore: [ backupAccount ],
+                accountsInPrimaryDataStore: [ primaryAccount ]);
+            var sut = context.CreatePaymentService();
+        
+            _ = sut.MakePayment(PaymentTestSubject.CreatePaymentRequest(paymentScheme: scheme, amount: 10));
+        
+            Assert.That(context.BackupAccountDataStore.Updates.Single().Balance, Is.EqualTo(40));
+        }
     }
 }
