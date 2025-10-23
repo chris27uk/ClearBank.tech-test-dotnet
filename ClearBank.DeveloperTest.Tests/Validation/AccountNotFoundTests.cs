@@ -8,7 +8,7 @@ namespace ClearBank.DeveloperTest.Tests.Validation
     {
         [TestCase(PaymentScheme.FasterPayments, AllowedPaymentSchemes.FasterPayments)]
         [TestCase(PaymentScheme.Bacs, AllowedPaymentSchemes.Bacs)]
-        [TestCase(PaymentScheme.Chaps, AllowedPaymentSchemes.Bacs)]
+        [TestCase(PaymentScheme.Chaps, AllowedPaymentSchemes.Chaps)]
         public void Given_An_Account_With_No_Account_When_Paying_Then_The_Payment_Is_Not_Successful(PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
         {
             var context = PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore: []);
