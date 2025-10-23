@@ -2,6 +2,8 @@
 {
     public class Account
     {
+        // Not made immutable in case it is the DTO for the database.
+        
         public string AccountNumber { get; set; }
         
         public decimal Balance { get; set; }

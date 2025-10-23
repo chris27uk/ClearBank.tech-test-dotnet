@@ -7,17 +7,8 @@ namespace ClearBank.DeveloperTest.Features.MakePayment.Payment
     {
         public bool DebtorCanPay(MakePaymentRequest request)
         {
-            if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
-            {
-                return false;
-            }
-
-            if (account.Balance < request.Amount)
-            {
-                return false;
-            }
-
-            return true;
+            return account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments) &&
+                   account.Balance >= request.Amount;
         }
     }
 }
