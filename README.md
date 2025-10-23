@@ -43,4 +43,4 @@ You should plan to spend around 1 to 3 hours to complete the exercise.
 ## If I had more time
 
 - I would put more testing effort into the backup data store. While absolutely not
-  needed for the refactoring safety, it would be good to validate this in case the logic becomes less simple.
+  needed for the refactoring safety, it would be good to validate this in case the logic becomes more complex.
