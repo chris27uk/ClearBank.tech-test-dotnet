@@ -11,10 +11,7 @@ namespace ClearBank.DeveloperTest.Tests.Validation.NoCreditTests
         [TestCase(PaymentScheme.Chaps, AllowedPaymentSchemes.Chaps)]
         public void Given_An_Account_With_No_Credit_When_Paying_With_Scheme_That_Allows_Debt_Then_Account_Is_Updated(PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
         {
-            var context = PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore:
-            [
-                PaymentTestSubject.CreateAccount(balance: 0, allowedPaymentSchemes: allowedPaymentSchemes)
-            ]);
+            var context = SingleAccountWithNoBalance(allowedPaymentSchemes);
             var sut = context.CreatePaymentService();
         
             _ = sut.MakePayment(PaymentTestSubject.CreatePaymentRequest(paymentScheme: scheme, amount: 50));
@@ -28,15 +25,20 @@ namespace ClearBank.DeveloperTest.Tests.Validation.NoCreditTests
         public void Given_An_Account_With_No_Credit_When_Paying_With_Scheme_That_Allows_Debt_Then_Succeeds(
             PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
         {
-            var context = PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore:
-            [
-                PaymentTestSubject.CreateAccount(balance: 0, allowedPaymentSchemes: allowedPaymentSchemes)
-            ]);
+            var context = SingleAccountWithNoBalance(allowedPaymentSchemes);
             var sut = context.CreatePaymentService();
 
             var result = sut.MakePayment(PaymentTestSubject.CreatePaymentRequest(paymentScheme: scheme, amount: 50));
 
             Assert.That(result.Success, Is.True);
+        }
+        
+        private static PaymentTestSubject SingleAccountWithNoBalance(AllowedPaymentSchemes allowedPaymentSchemes)
+        {
+            return PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore:
+            [
+                PaymentTestSubject.CreateAccount(balance: 0, allowedPaymentSchemes: allowedPaymentSchemes)
+            ]);
         }
     }
 }
