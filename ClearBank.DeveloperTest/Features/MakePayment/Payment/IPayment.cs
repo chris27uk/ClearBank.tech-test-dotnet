@@ -4,6 +4,6 @@ namespace ClearBank.DeveloperTest.Features.MakePayment.Payment
 {
     public interface IPayment
     {
-        bool Validate(MakePaymentRequest request);
+        bool DebtorCanPay(MakePaymentRequest request);
     }
 }

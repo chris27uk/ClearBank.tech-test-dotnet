@@ -14,5 +14,7 @@ namespace ClearBank.DeveloperTest.Types
         public DateTime PaymentDate { get; set; }
 
         public PaymentScheme PaymentScheme { get; set; }
+
+        public bool IsUnknownPaymentScheme() => !Enum.IsDefined(typeof(PaymentScheme), this.PaymentScheme);
     }
 }

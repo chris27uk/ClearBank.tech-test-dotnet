@@ -32,45 +32,26 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
 
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
-            var dataStoreType = this.getDataStoreType();
-
-            var factory = new AccountDataStoreFactory(this.backupAccountDataStore, this.primaryAccountDataStore);
-            var accountDataStore = factory.GetDataStore(dataStoreType);
+            var accountDataStore = GetAccountDataStore();
             var account = accountDataStore.GetAccount(request.DebtorAccountNumber);
             var payment = CreatePayment(request, account);
 
-            if (account == null)
+            if (account == null || request.IsUnknownPaymentScheme() || !payment.DebtorCanPay(request))
             {
                 return MakePaymentResult.ForFailure();
-            }
-
-            switch (request.PaymentScheme)
-            {
-                case PaymentScheme.Bacs:
-                    if (!payment.Validate(request))
-                    {
-                        return MakePaymentResult.ForFailure();
-                    }
-                    break;
-
-                case PaymentScheme.FasterPayments:
-                    if (!payment.Validate(request))
-                    {
-                        return MakePaymentResult.ForFailure();
-                    }
-                    break;
-
-                case PaymentScheme.Chaps:
-                    if (!payment.Validate(request))
-                    {
-                        return MakePaymentResult.ForFailure();
-                    }
-                    break;
             }
 
             account.Debit(request.Amount);
             accountDataStore.UpdateAccount(account);
             return MakePaymentResult.ForSuccess();
+        }
+
+        private IAccountDataStore GetAccountDataStore()
+        {
+            var dataStoreType = this.getDataStoreType();
+            var factory = new AccountDataStoreFactory(this.backupAccountDataStore, this.primaryAccountDataStore);
+            var accountDataStore = factory.GetDataStore(dataStoreType);
+            return accountDataStore;
         }
 
         private static IPayment CreatePayment(MakePaymentRequest request, Account account)
