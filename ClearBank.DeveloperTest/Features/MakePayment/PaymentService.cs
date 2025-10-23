@@ -61,12 +61,7 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     break;
 
                 case PaymentScheme.Chaps:
-                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Chaps))
-                    {
-                        return MakePaymentResult.ForFailure();
-                    }
-
-                    if (account.Status != AccountStatus.Live)
+                    if (!payment.Validate(request))
                     {
                         return MakePaymentResult.ForFailure();
                     }
@@ -85,6 +80,9 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
 
             if (request.PaymentScheme == PaymentScheme.FasterPayments)
                 return new FasterPaymentsPayment(account);
+            
+            if (request.PaymentScheme == PaymentScheme.Chaps)
+                return new ChapsPayment(account);
             
             // Uncovered.
             return null;
