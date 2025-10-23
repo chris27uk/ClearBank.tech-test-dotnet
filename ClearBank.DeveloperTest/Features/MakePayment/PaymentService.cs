@@ -47,10 +47,12 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     if (account == null)
                     {
                         result.Success = false;
+                        return result;
                     }
-                    else if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Bacs))
+                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Bacs))
                     {
                         result.Success = false;
+                        return result;
                     }
                     break;
 
@@ -58,12 +60,13 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     if (account == null)
                     {
                         result.Success = false;
+                        return result;
                     }
-                    else if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
+                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
                     {
                         result.Success = false;
                     }
-                    else if (account.Balance < request.Amount)
+                    if (account.Balance < request.Amount)
                     {
                         result.Success = false;
                     }
@@ -73,12 +76,13 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     if (account == null)
                     {
                         result.Success = false;
+                        return result;
                     }
-                    else if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Chaps))
+                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Chaps))
                     {
                         result.Success = false;
                     }
-                    else if (account.Status != AccountStatus.Live)
+                    if (account.Status != AccountStatus.Live)
                     {
                         result.Success = false;
                     }
