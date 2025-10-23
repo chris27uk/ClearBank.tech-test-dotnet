@@ -38,17 +38,17 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             Account account = accountDataStore.GetAccount(request.DebtorAccountNumber);
 
             var result = new MakePaymentResult();
-
             result.Success = true;
+            
+            if (account == null)
+            {
+                result.Success = false;
+                return result;
+            }
             
             switch (request.PaymentScheme)
             {
                 case PaymentScheme.Bacs:
-                    if (account == null)
-                    {
-                        result.Success = false;
-                        return result;
-                    }
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Bacs))
                     {
                         result.Success = false;
@@ -57,11 +57,6 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     break;
 
                 case PaymentScheme.FasterPayments:
-                    if (account == null)
-                    {
-                        result.Success = false;
-                        return result;
-                    }
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
                     {
                         result.Success = false;
@@ -73,11 +68,6 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     break;
 
                 case PaymentScheme.Chaps:
-                    if (account == null)
-                    {
-                        result.Success = false;
-                        return result;
-                    }
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Chaps))
                     {
                         result.Success = false;
