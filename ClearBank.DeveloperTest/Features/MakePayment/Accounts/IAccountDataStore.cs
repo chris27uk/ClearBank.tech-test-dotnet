@@ -1,6 +1,4 @@
-using ClearBank.DeveloperTest.Types;
-
-namespace ClearBank.DeveloperTest.Data;
+namespace ClearBank.DeveloperTest.Features.MakePayment.Accounts;
 
 public interface IAccountDataStore
 {

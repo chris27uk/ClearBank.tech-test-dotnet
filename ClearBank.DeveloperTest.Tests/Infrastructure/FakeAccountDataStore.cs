@@ -1,5 +1,4 @@
-using ClearBank.DeveloperTest.Data;
-using ClearBank.DeveloperTest.Types;
+using ClearBank.DeveloperTest.Features.MakePayment.Accounts;
 using System.Collections.Generic;
 using System.Linq;
 

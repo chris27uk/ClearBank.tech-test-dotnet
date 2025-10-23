@@ -1,9 +1,10 @@
-﻿using System;
-using ClearBank.DeveloperTest.Data;
-using ClearBank.DeveloperTest.Types;
+﻿using ClearBank.DeveloperTest.Features.MakePayment.Accounts;
+using ClearBank.DeveloperTest.Features.MakePayment.Contract;
+using ClearBank.DeveloperTest.Infrastructure.Accounts;
+using System;
 using System.Configuration;
 
-namespace ClearBank.DeveloperTest.Services
+namespace ClearBank.DeveloperTest.Features.MakePayment
 {
     public class PaymentService : IPaymentService
     {

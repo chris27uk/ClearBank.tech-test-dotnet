@@ -1,4 +1,4 @@
-﻿namespace ClearBank.DeveloperTest.Types
+﻿namespace ClearBank.DeveloperTest.Features.MakePayment.Accounts
 {
     public enum AllowedPaymentSchemes
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClearBank.DeveloperTest.Types
+namespace ClearBank.DeveloperTest.Features.MakePayment.Contract
 {
     public class MakePaymentRequest
     {

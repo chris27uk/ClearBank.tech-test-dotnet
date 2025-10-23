@@ -1,4 +1,4 @@
-namespace ClearBank.DeveloperTest.Data
+namespace ClearBank.DeveloperTest.Features.MakePayment.Accounts
 {
     public class AccountDataStoreFactory(IAccountDataStore backupDataStore, IAccountDataStore accountDataStore)
     {
