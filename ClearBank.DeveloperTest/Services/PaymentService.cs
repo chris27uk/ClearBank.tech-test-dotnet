@@ -7,29 +7,34 @@ namespace ClearBank.DeveloperTest.Services
 {
     public class PaymentService : IPaymentService
     {
+        private readonly IAccountDataStore primaryAccountDataStore;
+        private readonly IAccountDataStore backupAccountDataStore;
         private readonly Func<string> getDataStoreType;
-        
-        public PaymentService(Func<string> getDataStoreType) => this.getDataStoreType = getDataStoreType;
 
-        public PaymentService() : this(() => ConfigurationManager.AppSettings["DataStoreType"]) { }
+        public PaymentService(IAccountDataStore primaryAccountDataStore,
+            IAccountDataStore backupAccountDataStore,
+            Func<string> getDataStoreType)
+        {
+            this.primaryAccountDataStore = primaryAccountDataStore;
+            this.backupAccountDataStore = backupAccountDataStore;
+            this.getDataStoreType = getDataStoreType;
+        }
 
+        public PaymentService() : this(
+            new AccountDataStore(),
+            new BackupAccountDataStore(),
+            () => ConfigurationManager.AppSettings["DataStoreType"]
+        )
+        {
+        }
         
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
             var dataStoreType = this.getDataStoreType();
 
-            Account account = null;
-
-            if (dataStoreType == "Backup")
-            {
-                var accountDataStore = new BackupAccountDataStore();
-                account = accountDataStore.GetAccount(request.DebtorAccountNumber);
-            }
-            else
-            {
-                var accountDataStore = new AccountDataStore();
-                account = accountDataStore.GetAccount(request.DebtorAccountNumber);
-            }
+            var factory = new AccountDataStoreFactory(this.backupAccountDataStore, this.primaryAccountDataStore);
+            var accountDataStore = factory.GetDataStore(dataStoreType);
+            Account account = accountDataStore.GetAccount(request.DebtorAccountNumber);
 
             var result = new MakePaymentResult();
 
@@ -85,12 +90,10 @@ namespace ClearBank.DeveloperTest.Services
 
                 if (dataStoreType == "Backup")
                 {
-                    var accountDataStore = new BackupAccountDataStore();
                     accountDataStore.UpdateAccount(account);
                 }
                 else
                 {
-                    var accountDataStore = new AccountDataStore();
                     accountDataStore.UpdateAccount(account);
                 }
             }

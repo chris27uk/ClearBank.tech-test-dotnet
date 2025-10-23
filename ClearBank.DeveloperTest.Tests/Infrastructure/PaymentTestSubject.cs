@@ -8,9 +8,18 @@ namespace ClearBank.DeveloperTest.Tests.Infrastructure
     {
         private readonly string dataStoreType;
 
-        private PaymentTestSubject(string dataStoreType) => this.dataStoreType = dataStoreType;
-        
-        public PaymentService CreatePaymentService(string dataStoreType = "Default") => new(() => dataStoreType);
+        private PaymentTestSubject(FakeAccountDataStore primaryAccountDataStore, FakeAccountDataStore backupAccountDataStore, string dataStoreType)
+        {
+            this.PrimaryAccountDataStore = primaryAccountDataStore;
+            this.BackupAccountDataStore = backupAccountDataStore;
+            this.dataStoreType = dataStoreType;
+        }
+
+        public FakeAccountDataStore PrimaryAccountDataStore { get; }
+
+        public FakeAccountDataStore BackupAccountDataStore { get; }
+
+        public PaymentService CreatePaymentService() => new(this.PrimaryAccountDataStore, this.BackupAccountDataStore, () => dataStoreType);
 
         public static readonly DateTime DefaultPaymentDate = new(2022, 1, 1);
     
@@ -18,7 +27,7 @@ namespace ClearBank.DeveloperTest.Tests.Infrastructure
             Account[] accountsInPrimaryDataStore = null,
             string dataStoreType = "Default",
             Account[] accountsInBackupDataStore = null) =>
-            new(dataStoreType);
+            new(new FakeAccountDataStore(accountsInPrimaryDataStore ?? []), new FakeAccountDataStore(accountsInBackupDataStore ?? []), dataStoreType);
         
         public static MakePaymentRequest CreatePaymentRequest(
             decimal amount = 100, 

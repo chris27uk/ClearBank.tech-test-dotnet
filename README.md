@@ -25,4 +25,4 @@ You should plan to spend around 1 to 3 hours to complete the exercise.
 
 - Isolated data-store selection — Injected Func<string> into PaymentService to decouple from ConfigurationManager. Assumed the data store type might change dynamically (risk-averse choice for a payments system, outside chance of using something like `AppSettingsSection` to drive from DB). If static, this could be simplified to a plain string.
 
-
+- Laid down test scaffolding — Centralised SUT and doubles creation from day 1 to keep refactorability. This follows [an approach I have blogged about and used for a number of years](https://medium.com/@brumchris/rethinking-the-common-over-use-of-the-builder-pattern-in-c-fast-tests-eddebcd61e77) to scaling that I think works really well. I rarely use mocking libraries as [I find they make reading tests difficult](https://medium.com/@brumchris/libraries-for-mocking-are-bad-19da850adda9) at higher complexities.  I find this combination of approaches is a good DRY balance in tests.
