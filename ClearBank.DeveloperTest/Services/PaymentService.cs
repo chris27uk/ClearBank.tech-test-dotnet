@@ -1,4 +1,5 @@
-﻿using ClearBank.DeveloperTest.Data;
+﻿using System;
+using ClearBank.DeveloperTest.Data;
 using ClearBank.DeveloperTest.Types;
 using System.Configuration;
 
@@ -6,9 +7,16 @@ namespace ClearBank.DeveloperTest.Services
 {
     public class PaymentService : IPaymentService
     {
+        private readonly Func<string> getDataStoreType;
+        
+        public PaymentService(Func<string> getDataStoreType) => this.getDataStoreType = getDataStoreType;
+
+        public PaymentService() : this(() => ConfigurationManager.AppSettings["DataStoreType"]) { }
+
+        
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
-            var dataStoreType = ConfigurationManager.AppSettings["DataStoreType"];
+            var dataStoreType = this.getDataStoreType();
 
             Account account = null;
 

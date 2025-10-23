@@ -19,3 +19,10 @@ We’d also like you to add some unit tests to the ClearBank.DeveloperTest.Tests
 You are free to use any frameworks/NuGet packages that you see fit.  
  
 You should plan to spend around 1 to 3 hours to complete the exercise.
+
+# Chris G - 2025-10-23
+## Changes
+
+- Isolated data-store selection — Injected Func<string> into PaymentService to decouple from ConfigurationManager. Assumed the data store type might change dynamically (risk-averse choice for a payments system, outside chance of using something like `AppSettingsSection` to drive from DB). If static, this could be simplified to a plain string.
+
+
