@@ -23,6 +23,18 @@ You should plan to spend around 1 to 3 hours to complete the exercise.
 # Chris G - 2025-10-23
 ## Changes
 
-- Isolated data-store selection — Injected Func<string> into PaymentService to decouple from ConfigurationManager. Assumed the data store type might change dynamically (risk-averse choice for a payments system, outside chance of using something like `AppSettingsSection` to drive from DB). If static, this could be simplified to a plain string.
+- Made data layer mockable — Introduced AccountDataStoreFactory and IAccountDataStore so data stores can be substituted in tests.
 
-- Laid down test scaffolding — Centralised SUT and doubles creation from day 1 to keep refactorability. This follows [an approach I have blogged about and used for a number of years](https://medium.com/@brumchris/rethinking-the-common-over-use-of-the-builder-pattern-in-c-fast-tests-eddebcd61e77) to scaling that I think works really well. I rarely use mocking libraries as [I find they make reading tests difficult](https://medium.com/@brumchris/libraries-for-mocking-are-bad-19da850adda9) at higher complexities.  I find this combination of approaches is a good DRY balance in tests.
+
+- Added a behaviour-focused test pack — Tests assert behaviours not collaborators or internals. No mocking library; three-phase tests with frequent commits and coverage checks.
+
+
+- Restructured files for clarity — Switched from functional folders to a clean-architecture split: visible entrypoint, use cases, infra, and contracts.
+
+
+- Refactored to a payment strategy pattern — Moved SRP-violating logic into scheme-specific payment objects invoked by the service. This buys clarity and rate-of-change isolation. A YAGNI/KISS pushback is plausible; in reality I would justify against product vision/backlog context.
+
+## If I had more time
+
+- I would put more testing effort into the backup data store. While absolutely not
+  needed for the refactoring safety, it would be good to validate this in case the logic becomes less simple.
