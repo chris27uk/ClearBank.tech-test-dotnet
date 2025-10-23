@@ -76,10 +76,8 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     break;
             }
 
-            account.Balance -= request.Amount;
-
+            account.Debit(request.Amount);
             accountDataStore.UpdateAccount(account);
-
             return MakePaymentResult.ForSuccess();
         }
     }
