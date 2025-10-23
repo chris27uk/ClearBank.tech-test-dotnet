@@ -1,4 +1,5 @@
 ﻿using ClearBank.DeveloperTest.Features.MakePayment.Accounts;
+using ClearBank.DeveloperTest.Features.MakePayment.Payment;
 using ClearBank.DeveloperTest.Infrastructure.Accounts;
 using ClearBank.DeveloperTest.Types;
 using System;
@@ -35,7 +36,8 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
 
             var factory = new AccountDataStoreFactory(this.backupAccountDataStore, this.primaryAccountDataStore);
             var accountDataStore = factory.GetDataStore(dataStoreType);
-            Account account = accountDataStore.GetAccount(request.DebtorAccountNumber);
+            var account = accountDataStore.GetAccount(request.DebtorAccountNumber);
+            var payment = CreatePayment(request, account);
 
             if (account == null)
             {
@@ -45,7 +47,7 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             switch (request.PaymentScheme)
             {
                 case PaymentScheme.Bacs:
-                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Bacs))
+                    if (!payment.Validate(request))
                     {
                         return MakePaymentResult.ForFailure();
                     }
@@ -79,6 +81,15 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             account.Debit(request.Amount);
             accountDataStore.UpdateAccount(account);
             return MakePaymentResult.ForSuccess();
+        }
+
+        private IPayment CreatePayment(MakePaymentRequest request, Account account)
+        {
+            if (request.PaymentScheme == PaymentScheme.Bacs)
+                return new BacsPayment(account);
+
+            // Uncovered.
+            return null;
         }
     }
 }
