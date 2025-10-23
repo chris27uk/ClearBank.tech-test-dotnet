@@ -28,7 +28,7 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
         )
         {
         }
-        
+
         public MakePaymentResult MakePayment(MakePaymentRequest request)
         {
             var dataStoreType = this.getDataStoreType();
@@ -37,63 +37,57 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             var accountDataStore = factory.GetDataStore(dataStoreType);
             Account account = accountDataStore.GetAccount(request.DebtorAccountNumber);
 
-            var result = new MakePaymentResult();
-            result.Success = true;
-            
             if (account == null)
             {
-                result.Success = false;
-                return result;
+                return MakePaymentResult.ForFailure();
             }
-            
+
             switch (request.PaymentScheme)
             {
                 case PaymentScheme.Bacs:
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Bacs))
                     {
-                        result.Success = false;
-                        return result;
+                        return MakePaymentResult.ForFailure();
                     }
                     break;
 
                 case PaymentScheme.FasterPayments:
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
                     {
-                        result.Success = false;
+                        return MakePaymentResult.ForFailure();
                     }
+
                     if (account.Balance < request.Amount)
                     {
-                        result.Success = false;
+                        return MakePaymentResult.ForFailure();
                     }
                     break;
 
                 case PaymentScheme.Chaps:
                     if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.Chaps))
                     {
-                        result.Success = false;
+                        return MakePaymentResult.ForFailure();
                     }
+
                     if (account.Status != AccountStatus.Live)
                     {
-                        result.Success = false;
+                        return MakePaymentResult.ForFailure();
                     }
                     break;
             }
 
-            if (result.Success)
-            {
-                account.Balance -= request.Amount;
+            account.Balance -= request.Amount;
 
-                if (dataStoreType == "Backup")
-                {
-                    accountDataStore.UpdateAccount(account);
-                }
-                else
-                {
-                    accountDataStore.UpdateAccount(account);
-                }
+            if (dataStoreType == "Backup")
+            {
+                accountDataStore.UpdateAccount(account);
             }
-            
-            return result;
+            else
+            {
+                accountDataStore.UpdateAccount(account);
+            }
+
+            return MakePaymentResult.ForSuccess();
         }
     }
 }
