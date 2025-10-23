@@ -3,7 +3,7 @@ using ClearBank.DeveloperTest.Tests.Infrastructure;
 using ClearBank.DeveloperTest.Types;
 using NUnit.Framework;
 
-namespace ClearBank.DeveloperTest.Tests.Validation
+namespace ClearBank.DeveloperTest.Tests.Features.MakePayment.Validation
 {
     public class AccountNotLiveTests
     {
