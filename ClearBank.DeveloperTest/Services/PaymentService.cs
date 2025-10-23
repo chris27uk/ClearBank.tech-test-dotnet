@@ -97,7 +97,7 @@ namespace ClearBank.DeveloperTest.Services
                     accountDataStore.UpdateAccount(account);
                 }
             }
-
+            
             return result;
         }
     }

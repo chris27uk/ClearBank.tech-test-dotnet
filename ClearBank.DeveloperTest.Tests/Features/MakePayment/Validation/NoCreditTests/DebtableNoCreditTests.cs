@@ -35,7 +35,7 @@ namespace ClearBank.DeveloperTest.Tests.Validation.NoCreditTests
         
         private static PaymentTestSubject SingleAccountWithNoBalance(AllowedPaymentSchemes allowedPaymentSchemes)
         {
-            return PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore:
+            return PaymentTestSubject.WithExpectedPaymentResponse(accountsInPrimaryDataStore:
             [
                 PaymentTestSubject.CreateAccount(balance: 0, allowedPaymentSchemes: allowedPaymentSchemes)
             ]);

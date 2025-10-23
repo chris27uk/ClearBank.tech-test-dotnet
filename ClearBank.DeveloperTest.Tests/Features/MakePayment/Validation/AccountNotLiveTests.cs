@@ -62,7 +62,7 @@ namespace ClearBank.DeveloperTest.Tests.Validation
             Assert.That(result.Success, Is.True);
         }
         
-        private static PaymentTestSubject WithSingleAccountInPrimaryDataStore(AccountStatus status) => PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore:
+        private static PaymentTestSubject WithSingleAccountInPrimaryDataStore(AccountStatus status) => PaymentTestSubject.WithExpectedPaymentResponse(accountsInPrimaryDataStore:
         [
             PaymentTestSubject.CreateAccount(status: status)
         ]);

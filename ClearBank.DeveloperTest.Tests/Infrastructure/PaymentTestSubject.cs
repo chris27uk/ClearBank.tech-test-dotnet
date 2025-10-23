@@ -24,7 +24,7 @@ namespace ClearBank.DeveloperTest.Tests.Infrastructure
 
         public static readonly DateTime DefaultPaymentDate = new(2022, 1, 1);
     
-        public static PaymentTestSubject WithExpectedResponse(
+        public static PaymentTestSubject WithExpectedPaymentResponse(
             Account[] accountsInPrimaryDataStore = null,
             string dataStoreType = "Default",
             Account[] accountsInBackupDataStore = null) =>

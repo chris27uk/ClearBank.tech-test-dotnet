@@ -35,7 +35,7 @@ namespace ClearBank.DeveloperTest.Tests.Validation
         
         private static PaymentTestSubject SingleAccountWithSpecificAllowedPaymentSchemes(AllowedPaymentSchemes allowedPaymentSchemes)
         {
-            return PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore: [ PaymentTestSubject.CreateAccount(allowedPaymentSchemes: allowedPaymentSchemes) ]);
+            return PaymentTestSubject.WithExpectedPaymentResponse(accountsInPrimaryDataStore: [ PaymentTestSubject.CreateAccount(allowedPaymentSchemes: allowedPaymentSchemes) ]);
         }
     }
 }

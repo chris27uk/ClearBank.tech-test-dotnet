@@ -33,6 +33,6 @@ namespace ClearBank.DeveloperTest.Tests.Validation
             Assert.That(context.BackupAccountDataStore.Updates, Is.Empty);
         }
 
-        private static PaymentTestSubject WithNoAccountsInPrimaryDataStore() => PaymentTestSubject.WithExpectedResponse(accountsInPrimaryDataStore: []);
+        private static PaymentTestSubject WithNoAccountsInPrimaryDataStore() => PaymentTestSubject.WithExpectedPaymentResponse(accountsInPrimaryDataStore: []);
     }
 }
