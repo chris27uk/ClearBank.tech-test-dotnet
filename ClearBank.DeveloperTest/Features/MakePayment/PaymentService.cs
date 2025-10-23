@@ -73,19 +73,15 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             return MakePaymentResult.ForSuccess();
         }
 
-        private IPayment CreatePayment(MakePaymentRequest request, Account account)
+        private static IPayment CreatePayment(MakePaymentRequest request, Account account)
         {
-            if (request.PaymentScheme == PaymentScheme.Bacs)
-                return new BacsPayment(account);
-
-            if (request.PaymentScheme == PaymentScheme.FasterPayments)
-                return new FasterPaymentsPayment(account);
-            
-            if (request.PaymentScheme == PaymentScheme.Chaps)
-                return new ChapsPayment(account);
-            
-            // Uncovered.
-            return null;
+            return request.PaymentScheme switch
+            {
+                PaymentScheme.Bacs => new BacsPayment(account),
+                PaymentScheme.FasterPayments => new FasterPaymentsPayment(account),
+                PaymentScheme.Chaps => new ChapsPayment(account),
+                _ => null
+            };
         }
     }
 }
