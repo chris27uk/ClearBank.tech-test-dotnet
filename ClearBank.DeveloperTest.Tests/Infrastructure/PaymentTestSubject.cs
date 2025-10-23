@@ -7,6 +7,7 @@ namespace ClearBank.DeveloperTest.Tests.Infrastructure
     public class PaymentTestSubject
     {
         private readonly string dataStoreType;
+        private const string DefaultAccountNumber = "1234567890";
 
         private PaymentTestSubject(FakeAccountDataStore primaryAccountDataStore, FakeAccountDataStore backupAccountDataStore, string dataStoreType)
         {
@@ -28,6 +29,19 @@ namespace ClearBank.DeveloperTest.Tests.Infrastructure
             string dataStoreType = "Default",
             Account[] accountsInBackupDataStore = null) =>
             new(new FakeAccountDataStore(accountsInPrimaryDataStore ?? []), new FakeAccountDataStore(accountsInBackupDataStore ?? []), dataStoreType);
+        
+        public static Account CreateAccount(
+            string accountNumber = DefaultAccountNumber,
+            AllowedPaymentSchemes allowedPaymentSchemes = AllowedPaymentSchemes.Bacs | AllowedPaymentSchemes.Chaps | AllowedPaymentSchemes.FasterPayments,
+            decimal balance = 100,
+            AccountStatus status = AccountStatus.Live
+        ) => new()
+        {
+            AccountNumber = accountNumber,
+            AllowedPaymentSchemes = allowedPaymentSchemes,
+            Balance = balance,
+            Status = status
+        };
         
         public static MakePaymentRequest CreatePaymentRequest(
             decimal amount = 100, 
