@@ -2,7 +2,7 @@ using ClearBank.DeveloperTest.Tests.Infrastructure;
 using ClearBank.DeveloperTest.Types;
 using NUnit.Framework;
 
-namespace ClearBank.DeveloperTest.Tests.NoCreditTests
+namespace ClearBank.DeveloperTest.Tests.Validation.NoCreditTests
 {
     public class FasterPaymentNoCreditTests
     {

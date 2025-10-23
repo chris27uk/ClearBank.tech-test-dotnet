@@ -3,7 +3,7 @@ using ClearBank.DeveloperTest.Types;
 using NUnit.Framework;
 using System.Linq;
 
-namespace ClearBank.DeveloperTest.Tests.NoCreditTests
+namespace ClearBank.DeveloperTest.Tests.Validation.NoCreditTests
 {
     public class DebtableNoCreditTests
     {
