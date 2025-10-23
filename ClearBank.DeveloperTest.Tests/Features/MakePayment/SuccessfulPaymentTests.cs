@@ -45,12 +45,32 @@ namespace ClearBank.DeveloperTest.Tests.Features.MakePayment
         public void Given_A_Valid_Request_When_Paying_Using_Primary_Store_Then_Backup_Data_Store_Is_Not_Affected(PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
         {
             var context = PaymentTestSubject.WithExpectedPaymentResponse(accountsInBackupDataStore:
-                [PaymentTestSubject.CreateAccount(balance: 50, allowedPaymentSchemes: allowedPaymentSchemes)]);
+            [
+                PaymentTestSubject.CreateAccount(balance: 50, allowedPaymentSchemes: allowedPaymentSchemes)
+            ]);
             var sut = context.CreatePaymentService();
         
             _ = sut.MakePayment(PaymentTestSubject.CreatePaymentRequest(paymentScheme: scheme, amount: 50));
         
             Assert.That(context.BackupAccountDataStore.Updates, Is.Empty);
+        }
+        
+        [TestCase(PaymentScheme.Bacs, AllowedPaymentSchemes.Bacs)]
+        [TestCase(PaymentScheme.Chaps, AllowedPaymentSchemes.Chaps)]
+        [TestCase(PaymentScheme.FasterPayments, AllowedPaymentSchemes.FasterPayments)]
+        public void Given_A_Valid_Request_When_Paying_Using_Backup_Store_Then_Account_Is_Debited(PaymentScheme scheme, AllowedPaymentSchemes allowedPaymentSchemes)
+        {
+            var context = PaymentTestSubject.WithExpectedPaymentResponse(
+                dataStoreType: "Backup",
+                accountsInBackupDataStore:
+                [
+                    PaymentTestSubject.CreateAccount(balance: 50, allowedPaymentSchemes: allowedPaymentSchemes)
+                ]);
+            var sut = context.CreatePaymentService();
+        
+            _ = sut.MakePayment(PaymentTestSubject.CreatePaymentRequest(paymentScheme: scheme, amount: 50));
+        
+            Assert.That(context.BackupAccountDataStore.Updates.Single().Balance, Is.EqualTo(0));
         }
     }
 }
