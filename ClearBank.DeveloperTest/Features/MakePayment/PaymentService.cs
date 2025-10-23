@@ -54,12 +54,7 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
                     break;
 
                 case PaymentScheme.FasterPayments:
-                    if (!account.AllowedPaymentSchemes.HasFlag(AllowedPaymentSchemes.FasterPayments))
-                    {
-                        return MakePaymentResult.ForFailure();
-                    }
-
-                    if (account.Balance < request.Amount)
+                    if (!payment.Validate(request))
                     {
                         return MakePaymentResult.ForFailure();
                     }
@@ -88,6 +83,9 @@ namespace ClearBank.DeveloperTest.Features.MakePayment
             if (request.PaymentScheme == PaymentScheme.Bacs)
                 return new BacsPayment(account);
 
+            if (request.PaymentScheme == PaymentScheme.FasterPayments)
+                return new FasterPaymentsPayment(account);
+            
             // Uncovered.
             return null;
         }
