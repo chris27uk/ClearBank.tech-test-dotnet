@@ -44,3 +44,6 @@ You should plan to spend around 1 to 3 hours to complete the exercise.
 
 - I would put more testing effort into the backup data store. While absolutely not
   needed for the refactoring safety, it would be good to validate this in case the logic becomes more complex.
+
+
+- More consideration of design by contract, it is possible to move some of the construction of factories out of the PaymentService and into dependency injection. You could argue SRP on this point but as its so simple I didnt focus on it. 
